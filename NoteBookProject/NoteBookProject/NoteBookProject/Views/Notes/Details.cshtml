@@ -1,0 +1,100 @@
+﻿@using System.Text.Encodings.Web;
+
+@model NoteBookProject.Models.Note
+
+<div class="card">
+    <div class="card-header">
+        <h4>@Model.Title</h4>
+    </div>
+    <div class="card-body">
+        @if (!string.IsNullOrEmpty(@Model.Content))
+        {
+            <div id="note-content"></div>
+
+            <script>
+                try {
+                   
+                    const contentData = JSON.parse('@Html.Raw(JavaScriptEncoder.Default.Encode(@Model.Content))');
+
+                    if (contentData.blocks && contentData.blocks.length > 0) {
+                        contentData.blocks.forEach(block => {
+                            let element;
+
+                            if (block.type === "paragraph") {
+                                element = document.createElement('p');
+                                element.innerHTML = block.data.text;
+                            } else if (block.type === "header") {
+                                element = document.createElement('h' + block.data.level);
+                                element.innerHTML = block.data.text;
+                            } else if (block.type === "list") {
+                                element = document.createElement(block.data.style === 'ordered' ? 'ol' : 'ul');
+                                block.data.items.forEach(item => {
+                                    const li = document.createElement('li');
+                                    li.innerHTML = item;
+                                    element.appendChild(li);
+                                });
+                            } else if (block.type === "quote") {
+                                element = document.createElement('blockquote');
+                                const p = document.createElement('p');
+                                p.innerHTML = block.data.text;
+                                element.appendChild(p);
+                                const cite = document.createElement('cite');
+                                cite.innerHTML = block.data.caption;
+                                element.appendChild(cite);
+                            } else if (block.type === "image") {
+                                element = document.createElement('img');
+                                element.src = block.data.file.url;
+                                element.alt = block.data.caption || '';
+                                element.className = block.data.stretched ? 'img-fluid' : '';
+                            } else if (block.type === "delimiter") {
+                                element = document.createElement('hr');
+                            } else if (block.type === "table") {
+                                element = document.createElement('table');
+                                block.data.content.forEach(row => {
+                                    const tr = document.createElement('tr');
+                                    row.forEach(cell => {
+                                        const td = document.createElement('td');
+                                        td.innerHTML = cell;
+                                        tr.appendChild(td);
+                                    });
+                                    element.appendChild(tr);
+                                });
+                            } else if (block.type === "raw") {
+                                element = document.createElement('div');
+                                element.innerHTML = block.data.html;
+                            } else if (block.type === "checklist") {
+                                element = document.createElement('ul');
+                                block.data.items.forEach(item => {
+                                    const li = document.createElement('li');
+                                    li.innerHTML = `<input type="checkbox" disabled ${item.checked ? 'checked' : ''}> ${item.text}`;
+                                    element.appendChild(li);
+                                });
+                            }
+                            
+
+                            if (element) {
+                                document.getElementById('note-content').appendChild(element);
+                            }
+                        });
+                    } else {
+                        const p = document.createElement('p');
+                        p.innerHTML = "No content available.";
+                        document.getElementById('note-content').appendChild(p);
+                    }
+                } catch (error) {
+                    console.error("Content could not be parsed:", error);
+                    const p = document.createElement('p');
+                    p.innerHTML = "No content available.";
+                    document.getElementById('note-content').appendChild(p);
+                }
+            </script>
+        }
+        else
+        {
+            <p>No content available.</p>
+        }
+    </div>
+    <div class="card-footer text-muted">
+        Created on: @Model.CreatedDate.ToString("f")
+    </div>
+</div>

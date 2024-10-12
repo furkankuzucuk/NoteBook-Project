@@ -1,0 +1,24 @@
+﻿@model IEnumerable<NoteBookProject.Models.Note>
+
+<div class="container">
+    <div class="row">
+        @foreach (var note in Model)
+        {
+            var displayTitle = note.Title.Length > 10 ? note.Title.Substring(0, 10) + "..." : note.Title;
+            <div class="col-md-4 mb-4 d-flex justify-content-center">
+                <div class="card text-center" style="width: 18rem; height: 18rem; display: flex; flex-direction: column;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title mb-2">@displayTitle</h5>
+                        <p class="card-text mb-4 text-truncate" style="flex-grow: 1;">@note.Content</p>
+                        <a href="@Url.Action("Details", "Notes", new { id = note.Id })" class="btn btn-primary mt-auto">View Note</a>
+                        <a href="@Url.Action("Edit", "Notes", new { id = note.Id })" class="btn btn-secondary mt-2">Edit</a>
+                        <a href="@Url.Action("Delete", "Notes", new { id = note.Id })" class="btn btn-danger mt-2">Delete</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        @note.CreatedDate.ToString("f")
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,132 @@
+body.show-background {
+    background-position: center center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    padding: 0 5%;
+}
+
+.left-section, .right-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.right-section {
+    align-items: flex-end; 
+}
+
+.welcome-text {
+    font-size: 2.3em;
+    color: steelblue;
+    margin: 0;
+    padding: 0;
+}
+
+button.btn {
+    background: #ff6c00;
+    border: none;
+    border-radius: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: 180px;
+    height: 45px;
+    margin: 15px 0;
+    display: block;
+}
+
+    button.btn:hover, button.btn:focus {
+        background: #e96800;
+    }
+
+
+
+form {
+    max-width: 350px;
+    width: 100%;
+    margin: 40px auto;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 5px 5px 0 rgba(50, 50, 50, 0.7);
+}
+
+.form-Wrapper::before, .form-Wrapper::after {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ccc;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 3.5px;
+    transform: rotateZ(8deg);
+    width: 100%;
+    z-index: -1;
+}
+
+.form-group {
+    padding: 20px 0;
+    position: relative;
+    margin-bottom: 0;
+}
+
+.form-control, .form-control:focus {
+    border: none;
+    box-shadow: none;
+    padding-left: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.26);
+    border-radius: 0;
+}
+
+.form-group label {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    top: 4px;
+    color: rgba(0, 0, 0, 0.26);
+}
+
+.form-group.focused label {
+    transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    top: 4px;
+    color: #ff6c00;
+}
+
+.form-group label::after {
+    background-color: #ff6c00;
+    bottom: 14px;
+    content: "";
+    height: 2px;
+    left: 45%;
+    position: absolute;
+    transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    width: 10px;
+}
+
+form h2 {
+    color: #ff6c00;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 30px;
+    background: rgba(0, 0, 0, 0.26);
+    padding: 5px 0;
+}
+
+.form-Wrapper {
+    padding: 20px;
+}
+
+.form-group.focused label::after {
+    left: 0;
+    visibility: visible;
+    width: 100%;
+}
